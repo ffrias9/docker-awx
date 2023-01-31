@@ -1,0 +1,52 @@
+---
+- name: Install and setup Docker Compose
+  hosts: localhost
+  become: yes
+
+  tasks:
+  - name: Install curl and wget
+    yum:
+      name:
+        - curl
+        - wget
+      state: latest
+
+  - name: Download the latest Docker Compose binary
+    shell: curl -s https://api.github.com/repos/docker/compose/releases/latest | grep browser_download_url  | grep docker-compose-linux-x86_64 | cut -d '"' -f 4 | wget -qi -
+    args:
+      executable: /bin/bash
+
+  - name: Give executable permission to the binary
+    file:
+      path: docker-compose-linux-x86_64
+      mode: u+x
+
+  - name: Move Docker Compose binary to PATH
+    command: sudo mv docker-compose-linux-x86_64 /usr/local/bin/docker-compose
+
+  - name: Give all permissions to file
+    file:
+      path: /usr/local/bin/docker-compose
+      mode: 777
+
+  - name: Add current user to docker group
+    user:
+      name: vagrant
+      groups: docker
+      append: yes
+
+  - name: Switch to docker group
+    group:
+      name: docker
+      state: present
+
+  - name: Download Docker Compose completion script
+    get_url:
+      url: https://raw.githubusercontent.com/docker/compose/master/contrib/completion/bash/docker-compose
+      dest: /etc/bash_completion.d/docker-compose
+
+  - name: Source Docker Compose completion script
+    shell: source /etc/bash_completion.d/docker-compose
+    args:
+      executable: /bin/bash
+
