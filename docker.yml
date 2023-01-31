@@ -1,0 +1,60 @@
+- name: Install and configure Docker
+  hosts: localhost
+  become: yes
+
+  tasks:
+  - name: Install dependencies
+    package:
+      name:
+        - yum-utils
+
+  - name: Add Docker repository
+    command: yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+
+  - name: Update cache
+    command: yum makecache
+
+  - name: Remove old Docker packages
+    package:
+      name:
+        - docker
+        - docker-client
+        - docker-client-latest
+        - docker-common
+        - docker-latest
+        - docker-latest-logrotate
+        - docker-logrotate
+        - docker-engine
+        - podman
+        - runc
+      state: absent
+
+  - name: Install Docker packages
+    package:
+      name:
+        - docker-ce
+        - docker-ce-cli
+        - containerd.io
+      state: present
+      allowerasing: yes
+
+  - name: Install Docker Python module
+    pip:
+      name: docker
+
+  - name: Enable and start Docker service
+    service:
+      name: docker
+      state: started
+      enabled: yes
+
+  - name: Create Docker group
+    group:
+      name: docker
+      state: present
+
+  - name: Add user to Docker group
+    user:
+      name: vagrant
+      groups: docker
+      append: yes
