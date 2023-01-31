@@ -1,0 +1,8 @@
+---
+- name: "Docker"
+  hosts: localhost
+  become: yes
+  roles:
+    - docker
+    - docker-compose
+    - awx
