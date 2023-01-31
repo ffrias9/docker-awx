@@ -1,9 +1,4 @@
 ---
-- name: Install and setup Docker Compose
-  hosts: localhost
-  become: yes
-
-  tasks:
   - name: Install curl and wget
     yum:
       name:
