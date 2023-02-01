@@ -7,15 +7,15 @@
         - pwgen
       state: present
 
-  - name: Download AWX archive
-    get_url:
-      url: https://github.com/ansible/awx/archive/17.1.0.zip
-      dest: /home/vagrant/
+  - name: Copy zip file to /home path
+    copy:
+      src: /home/vagrant/ansible/docker-awx/roles/awx/awx-17.1.0.zip
+      dest: "{{ ushome }}"
 
   - name: Unzip AWX archive
     unarchive:
-      src: /home/vagrant/awx-17.1.0.zip
-      dest: /home/vagrant/
+      src: "{{ ushome }}/awx-17.1.0.zip"
+      dest: "{{ ushome }}"
       remote_src: yes
 
   - name: Generate password
@@ -24,8 +24,8 @@
 
   - name: Copy inventory file to playbook path
     copy:
-      src: "{{ file1 }}"
-      dest: "{{ dest }}"
+      src: "{{ inventory }}"
+      dest: "{{ invdest }}"
 
   - name: Run AWX installation
     command: ansible-playbook -i inventory install.yml

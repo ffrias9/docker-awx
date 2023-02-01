@@ -3,9 +3,12 @@
 #######################################
 user: vagrant
 
+
+
+
 #####################################
 # VARIABLES YOU SHOULD NOT CHANGE!! #
 #####################################
-
-file1: /home/{{ user }}/ansible/docker-awx/roles/awx/inventory
-dest: /home/{{ user }}/awx-17.1.0/installer
+ushome: /home/{{ user }}
+inventory: /home/{{ user }}/ansible/docker-awx/roles/awx/inventory
+invdest: /home/{{ user }}/awx-17.1.0/installer
