@@ -45,3 +45,6 @@
     args:
       executable: /bin/bash
 
+  - name: Install Docker-Compose Python module
+    pip:
+      name: docker-compose
