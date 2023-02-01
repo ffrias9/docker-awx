@@ -1,2 +1,11 @@
-file1: /home/vagrant/ansible/docker-awx/roles/awx/inventory
-dest: /home/vagrant/awx-17.1.0/installer
+#######################################
+# THE ONLY VARIABLE YOU MUST CHANGE!! #
+#######################################
+user: vagrant
+
+#####################################
+# VARIABLES YOU SHOULD NOT CHANGE!! #
+#####################################
+
+file1: /home/{{ user }}/ansible/docker-awx/roles/awx/inventory
+dest: /home/{{ user }}/awx-17.1.0/installer
