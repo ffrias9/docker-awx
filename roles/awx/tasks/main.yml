@@ -10,7 +10,7 @@
   - name: Copy zip file to /home/$user path
     become_user: "{{ user }}"
     copy:
-      src: /home/vagrant/ansible/docker-awx/roles/awx/awx-17.1.0.zip
+      src: awx-17.1.0.zip
       dest: "{{ ushome }}"
 
   - name: Unzip AWX archive
@@ -32,7 +32,7 @@
   - name: Copy inventory file to playbook path
     become_user: "{{ user }}"
     copy:
-      src: "{{ inventory }}"
+      src: inventory
       dest: "{{ invdest }}"
 
   - name: Replace secret_key in inventory file
