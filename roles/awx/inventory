@@ -113,7 +113,7 @@ create_preload_data=True
 # AWX Secret key
 # It's *very* important that this stay the same between upgrades or you will lose the ability to decrypt
 # your credentials
-secret_key=aabbccddee
+secret_key=secureKey
 
 # By default a broadcast websocket secret will be generated.
 # If you would like to *rerun the playbook*, you need to set a unique password.

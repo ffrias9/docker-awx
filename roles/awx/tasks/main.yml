@@ -7,7 +7,7 @@
         - pwgen
       state: present
 
-  - name: Copy zip file to /home path
+  - name: Copy zip file to /home/$user path
     become_user: "{{ user }}"
     copy:
       src: /home/vagrant/ansible/docker-awx/roles/awx/awx-17.1.0.zip
@@ -20,6 +20,11 @@
       dest: "{{ ushome }}"
       remote_src: yes
 
+  - name: Delete file .zip
+    file:
+      path: "{{ ushome }}/awx-17.1.0.zip"
+      state: absent
+
   - name: Generate password
     command: pwgen -N 1 -s 40
     register: pw_gen
@@ -30,11 +35,18 @@
       src: "{{ inventory }}"
       dest: "{{ invdest }}"
 
+  - name: Replace secret_key in inventory file
+    lineinfile:
+      dest: "{{ invdest }}/inventory"
+      line: "secret_key={{ pw_gen.stdout }}"
+      regexp: "^secret_key=secureKey"
+      state: present
+
   - name: Run AWX installation
     become_user: "{{ user }}"
     command: ansible-playbook -i inventory install.yml
     args:
-      chdir: /home/vagrant/awx-17.1.0/installer
+      chdir: "{{ ushome }}/awx-17.1.0/installer"
 
       #  - name: enable port 80
     #    become: yes
