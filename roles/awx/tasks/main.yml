@@ -1,10 +1,4 @@
 ---
-- hosts: localhost
-
-  vars_files:
-    - vars.yml
-
-  tasks:
   - name: Install zip and pwgen
     become: yes
     package:
@@ -16,11 +10,11 @@
   - name: Download AWX archive
     get_url:
       url: https://github.com/ansible/awx/archive/17.1.0.zip
-      dest: /home/vagrant/17.1.0.zip
+      dest: /home/vagrant/
 
   - name: Unzip AWX archive
     unarchive:
-      src: /home/vagrant/17.1.0.zip
+      src: /home/vagrant/awx-17.1.0.zip
       dest: /home/vagrant/
       remote_src: yes
 
