@@ -1,0 +1,2 @@
+file1: /home/vagrant/inventory
+dest: /home/vagrant/awx-17.1.0/installer

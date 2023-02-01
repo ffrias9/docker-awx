@@ -1,11 +1,54 @@
 ---
-  - name: Build and deploy AWX
-    #hosts: all
-    #become: yes
-    #    roles:
-    # - {role: check_vars}
-    # - {role: image_build, when: "dockerhub_base is not defined"}
-    # - {role: image_push, when: "docker_registry is defined and dockerhub_base is not defined"}
-    # - {role: kubernetes, when: "openshift_host is defined or kubernetes_context is defined"}
-    # - {role: local_docker, when: "openshift_host is not defined and kubernetes_context is not defined"}
-   - import_tasks: ./roles/check_vars/tasks/main.yml 
+- hosts: localhost
+
+  vars_files:
+    - vars.yml
+
+  tasks:
+  - name: Install zip and pwgen
+    become: yes
+    package:
+      name:
+        - zip
+        - pwgen
+      state: present
+
+  - name: Download AWX archive
+    get_url:
+      url: https://github.com/ansible/awx/archive/17.1.0.zip
+      dest: /home/vagrant/17.1.0.zip
+
+  - name: Unzip AWX archive
+    unarchive:
+      src: /home/vagrant/17.1.0.zip
+      dest: /home/vagrant/
+      remote_src: yes
+
+  - name: Generate password
+    command: pwgen -N 1 -s 40
+    register: pw_gen
+
+  - name: Copy inventory file to playbook path
+    copy:
+      src: "{{ file1 }}"
+      dest: "{{ dest }}"
+
+  - name: Run AWX installation
+    command: ansible-playbook -i inventory install.yml
+    args:
+      chdir: /home/vagrant/awx-17.1.0/installer
+
+      #  - name: enable port 80
+    #    become: yes
+#    firewalld:        
+            #      zone: public
+      #      port: 80/tcp
+      #      permanent: true
+      #      state: enabled
+
+      #  handlers:
+          #  - name: Restart firewalld
+    #    become: yes
+    #    service:
+            #      name: firewalld
+      #     state: restarted
