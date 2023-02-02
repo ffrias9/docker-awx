@@ -8,7 +8,8 @@
     command: yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
 
   - name: Update cache
-    command: yum makecache
+    yum:
+      update_cache: yes
 
   - name: Remove old Docker packages
     package:
@@ -51,6 +52,6 @@
 
   - name: Add user to Docker group
     user:
-      name: vagrant
+      name: "{{ user }}"
       groups: docker
       append: yes
