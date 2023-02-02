@@ -22,7 +22,7 @@
   - name: Give all permissions to file
     file:
       path: "{{ path }}"
-      mode: 777
+      mode: "777"
 
   - name: Create Docker group
     group:
@@ -49,3 +49,8 @@
     pip:
       name: docker-compose
       executable: pip3
+
+  - name: Give all permissions to a file
+    file:
+      path: "{{ file }}" 
+      mode: "777"

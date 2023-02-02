@@ -1,2 +1,3 @@
 user: vagrant
 path: /usr/local/bin/docker-compose
+file: /run/docker.sock
