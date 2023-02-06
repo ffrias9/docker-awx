@@ -10,4 +10,5 @@ version: 17.1.0
 # VARIABLES YOU MUSTN´T CHANGE!! #
 #####################################
 ushome: /home/{{ user }}
-invdest: /home/{{ user }}/awx-17.1.0/installer
+invdest: /home/{{ user }}/awx-{{ version }}/installer
+compdest: "{{ ushome }}/awx-{{ version }}/installer/roles/local_docker/tasks"

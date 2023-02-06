@@ -41,6 +41,11 @@
       regexp: "^secret_key=secureKey"
       state: present
 
+  - name: Copy compose.yml
+    copy:
+      src: compose.yml
+      dest: "{{ compdest }}"
+
   - name: Run AWX installation
     become_user: "{{ user }}"
     command: ansible-playbook -i inventory install.yml
