@@ -15,7 +15,7 @@
   - name: Unzip AWX archive
     become_user: "{{ user }}"
     unarchive:
-      src: "{{ ushome }}/awx-17.1.0.zip"
+      src: "{{ ushome }}/awx-{{ version }}.zip"
       dest: "{{ ushome }}"
       remote_src: yes
 
