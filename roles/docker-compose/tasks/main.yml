@@ -27,17 +27,6 @@
       path: "{{ path }}"
       mode: "777"
 
-  - name: Create Docker group
-    group:
-      name: docker
-      state: present
-
-  - name: Add user to docker group
-    user:
-      name: "{{ user }}"
-      groups: docker
-      append: yes
-
   - name: Download Docker Compose script
     get_url:
       url: https://raw.githubusercontent.com/docker/compose/master/contrib/completion/bash/docker-compose
