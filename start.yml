@@ -3,6 +3,6 @@
     hosts: localhost
     become: true
     roles:
-      - docker
+            #      - docker
       - docker-compose
-      - awx
+            #      - awx

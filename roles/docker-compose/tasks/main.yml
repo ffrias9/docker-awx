@@ -1,4 +1,7 @@
 ---
+  - name: Pre-tasks
+    include_tasks: prerequisites.yml
+
   - name: Install curl and wget
     yum:
       name:

@@ -7,10 +7,9 @@
         - pwgen
       state: present
 
-  - name: Copy zip file to /home/$user path
-    become_user: "{{ user }}"
-    copy:
-      src: awx-17.1.0.zip
+  - name: Download AWX zip file
+    get_url:
+      url: "https://github.com/ansible/awx/archive/{{ version }}.zip"
       dest: "{{ ushome }}"
 
   - name: Unzip AWX archive
@@ -22,7 +21,7 @@
 
   - name: Delete file .zip
     file:
-      path: "{{ ushome }}/awx-17.1.0.zip"
+      path: "{{ ushome }}/awx-{{ version }}.zip"
       state: absent
 
   - name: Generate password
@@ -46,7 +45,7 @@
     become_user: "{{ user }}"
     command: ansible-playbook -i inventory install.yml
     args:
-      chdir: "{{ ushome }}/awx-17.1.0/installer"
+      chdir: "{{ ushome }}/awx-{{ version }}/installer"
 
       #  - name: enable port 80
     #    become: yes

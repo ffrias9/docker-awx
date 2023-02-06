@@ -1,0 +1,24 @@
+---
+  - name: Check if group docker exists
+    shell: cat /etc/group | awk "-F:" '{print $1}' | grep ^docker$
+    register: group
+    failed_when: "'docker' not in group.stdout"
+    changed_when: false
+    ignore_errors: true
+
+  - name: Error message from the previous task
+    fail:
+      msg: The group docker doesn't exist
+    when: "'docker' not in group.stdout"
+
+  - name: Check if the user belongs to the group
+    shell: groups vagrant | grep -E '(^|\s)docker($|\s)' -o
+    register: usgrp
+    failed_when: "'docker' not in usgrp.stdout"
+    changed_when: false
+    ignore_errors: true
+
+  - name: Error message from the previous task 
+    fail:
+      msg: The user "{{ user }}" doesn't belong to the docker group
+    when: "'docker' not in usgrp.stdout"
